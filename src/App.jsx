@@ -189,12 +189,14 @@ export default function CouplexApp() {
         </div>
 
         {/* Form Section */}
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-6" autoComplete="on">
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">
+            <label htmlFor="access-code" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">
               Váš unikátní kód
             </label>
             <input 
+              id="access-code"
+              name="access-code"
               value={loginCode}
               onChange={e => setLoginCode(e.target.value)}
               autoFocus
@@ -204,6 +206,7 @@ export default function CouplexApp() {
           </div>
           
           <button 
+            type="submit"
             disabled={loading || loginCode.length < 3}
             className="w-full h-16 bg-rose-500 text-white rounded-2xl font-bold text-sm tracking-widest uppercase shadow-lg shadow-rose-100 hover:bg-rose-600 active:scale-[0.98] transition-all disabled:opacity-20 flex items-center justify-center gap-3"
           >
