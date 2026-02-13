@@ -681,5 +681,7 @@ a:focus-visible {
   .modern-input-premium {
     box-shadow: none;
     border: 1px solid #e5e7eb;
+    letter-spacing: 0.2rem;
+    font-weight: 800;
   }
 }
