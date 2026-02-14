@@ -41,6 +41,7 @@ const emotions = [
   { id: 'calm', label: 'KLIDNÝ', symbol: '🧘', color: 'bg-emerald-50 text-emerald-600' },
   { id: 'sad', label: 'SMUTNÝ', symbol: '😔', color: 'bg-slate-100 text-slate-600' },
   { id: 'anxious', label: 'NERVÓZNÍ', symbol: '😟', color: 'bg-orange-50 text-orange-600' },
+    { id: 'angry', label: 'NAŠTVANÝ', symbol: '😡', color: 'bg-red-50 text-red-600' },
   { id: 'tired', label: 'UNAVENÝ', symbol: '🥱', color: 'bg-indigo-50 text-indigo-600' },
 ];
 
