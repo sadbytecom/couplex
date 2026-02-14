@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { initPushNotifications, setupEmotionListener } from './utils/notificationSetup';
+
 import { 
   Heart, 
   LogOut, 
@@ -59,6 +61,9 @@ export default function CouplexApp() {
   const [selectedEmotion, setSelectedEmotion] = useState(null);
   const [emotionDescription, setEmotionDescription] = useState('');
 
+  // --- NOTIFIKACE ---
+  const [emotionListener, setEmotionListener] = useState(null);
+
   // --- DATA FETCHING ---
   const loadAppData = useCallback(async (userId, silent = false) => {
     if (!silent) setLoading(true);
@@ -97,15 +102,48 @@ export default function CouplexApp() {
     }
   }, []);
 
+// ============= USEEFFECT #1: LOGIN A INICIALIZACE NOTIFIKACÍ =============
   useEffect(() => {
     const saved = localStorage.getItem('couplex_session');
     if (saved) {
       const userData = JSON.parse(saved);
       setCurrentUser(userData);
       setPage('dashboard');
+      
+      // Inicializuj Service Worker a push notifikace
+      initPushNotifications().then((permissionGranted) => {
+        if (permissionGranted) {
+          console.log('Push notifikace povoleny');
+        }
+      });
+      
       loadAppData(userData.id);
     }
   }, [loadAppData]);
+
+    // ============= USEEFFECT #2: REAL-TIME LISTENER PRO NOVÉ EMOCE =============
+  useEffect(() => {
+    if (currentUser && partnershipId && !emotionListener) {
+      const listener = setupEmotionListener(
+        supabase,
+        partnershipId,
+        currentUser.id,
+        () => {
+          // Refresh dat když partner pošle emoci
+          loadAppData(currentUser.id, true);
+        }
+      );
+      setEmotionListener(listener);
+    }
+
+    // Cleanup - odpojení listener při unmount či změně
+    return () => {
+      if (emotionListener) {
+        emotionListener.unsubscribe();
+        setEmotionListener(null);
+      }
+    };
+  }, [currentUser, partnershipId, emotionListener, loadAppData]);
 
   // --- ACTIONS ---
   const handleLogin = async (e) => {
@@ -127,7 +165,14 @@ export default function CouplexApp() {
     }
   };
 
+  // ============= HANDLELOGOUT S CLEANUP NOTIFIKACÍ =============
   const handleLogout = () => {
+    // Uzavři listener
+    if (emotionListener) {
+      emotionListener.unsubscribe();
+      setEmotionListener(null);
+    }
+
     localStorage.removeItem('couplex_session');
     setPage('auth');
     setCurrentUser(null);
