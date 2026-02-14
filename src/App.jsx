@@ -333,7 +333,7 @@ export default function CouplexApp() {
         <div className="flex justify-between items-center mb-10">
           <div>
             <h1 className="text-xl font-bold text-slate-900 uppercase tracking-tighter">{currentUser?.username}</h1>
-            <p className="text-[10px] font-bold text-rose-500 uppercase tracking-[0.2em] mt-0.5 italic">Online</p>
+            <p className="text-[10px] font-bold text-rose-500 uppercase tracking-[0.2em] mt-0.5">Online</p>
           </div>
           <div className="flex gap-2">
             <button 
