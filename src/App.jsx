@@ -38,6 +38,7 @@ const decryptText = (encryptedText) => {
 const emotions = [
   { id: 'happy', label: 'ŠŤASTNÝ', symbol: '😊', color: 'bg-amber-50 text-amber-600' },
   { id: 'loved', label: 'MILOVANÝ', symbol: '🥰', color: 'bg-rose-50 text-rose-600' },
+  { id: 'loved', label: 'NADRŽENÝ', symbol: '🥵', color: 'bg-red-50 text-red-600' },
   { id: 'calm', label: 'KLIDNÝ', symbol: '🧘', color: 'bg-emerald-50 text-emerald-600' },
   { id: 'sad', label: 'SMUTNÝ', symbol: '😔', color: 'bg-slate-100 text-slate-600' },
   { id: 'anxious', label: 'NERVÓZNÍ', symbol: '😟', color: 'bg-orange-50 text-orange-600' },
